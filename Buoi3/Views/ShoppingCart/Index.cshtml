@@ -1,0 +1,59 @@
+﻿@model ShoppingCart
+
+@{
+    ViewData["Title"] = "Giỏ hàng của bạn";
+}
+
+<div class="container mt-5">
+    <h2 class="mb-4">🛒 Giỏ hàng của bạn</h2>
+
+    @if (Model.Items == null || !Model.Items.Any())
+    {
+        <div class="alert alert-warning">Giỏ hàng đang trống 😢</div>
+    }
+    else
+    {
+        <table class="table table-bordered table-striped shadow-sm">
+            <thead class="table-dark">
+                <tr>
+                    <th>Sản phẩm</th>
+                    <th class="text-center">Số lượng</th>
+                    <th class="text-end">Đơn giá</th>
+                    <th class="text-end">Thành tiền</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Items)
+                {
+                    <tr>
+                        <td>@item.Name</td>
+                        <td class="text-center">@item.Quantity</td>
+                        <td class="text-end">@item.Price.ToString("N0") ₫</td>
+                        <td class="text-end">@((item.Price * item.Quantity).ToString("N0")) ₫</td>
+                        <td class="text-center">
+                            <a asp-action="RemoveFromCart" asp-route-productId="@item.ProductId" class="btn btn-sm btn-danger">
+                                <i class="bi bi-trash"></i> Xoá
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="3" class="text-end"><strong>Tổng cộng:</strong></td>
+                    <td class="text-end text-danger fw-bold">
+                        @(Model.Items.Sum(i => i.Price * i.Quantity).ToString("N0")) ₫
+                    </td>
+                    <td></td>
+                </tr>
+            </tfoot>
+        </table>
+
+        <div class="text-end mt-3">
+            <a asp-action="Checkout" class="btn btn-success btn-lg">
+                <i class="bi bi-cash-stack"></i> Thanh toán ngay
+            </a>
+        </div>
+    }
+</div>

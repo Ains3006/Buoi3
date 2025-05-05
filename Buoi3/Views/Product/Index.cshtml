@@ -1,0 +1,101 @@
+﻿@model IEnumerable<Product>
+@{
+    ViewData["Title"] = "Home Page";
+    int numOfQuantity = 1;
+}
+<!-- Menu Hamburger -->
+<nav class="navbar navbar-dark bg-dark">
+    <div class="container-fluid">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <a class="navbar-brand" href="#">Shop Laptop</a>
+    </div>
+</nav>
+
+<div class="container-fluid">
+    <div class="row">
+        <!-- Sidebar -->
+        <div class="col-md-2 bg-dark text-white vh-100 p-3 collapse collapse-horizontal" id="sidebarMenu">
+            <h4 class="text-center">Menu</h4>
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="/">🏠 Trang chủ</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="#">📞 Liên hệ</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="#">💻 Tìm máy tính</a>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Content -->
+        <div class="col-md-10 ">
+            
+            <div class="mb-3 d-flex gap-3 ">
+                <a asp-action="Add" class="btn btn-success">💻 Thêm máy tính</a>
+                <a asp-controller="Categories" asp-action="Add" class="btn btn-primary">📁 Thêm danh mục</a>
+            </div>
+            <h2 class="text-primary mt-3">Sản phẩm</h2>
+            <div class="row">
+                @foreach (var product in Model)
+                {
+                    <div class="col-md-4">
+                        <div class="card mb-4 shadow-lg border-primary">
+                            <img src="@product.ImageUrl" class="card-img-top" alt="@product.Name" style="height: 200px; object-fit: cover;">
+                            <div class="card-body">
+                                <h5 class="card-title text-primary">@product.Name</h5>
+                                <p class="card-text"><strong>💰 Giá:</strong> <span class="text-danger">@product.Price VNĐ</span></p>
+                                <p class="card-text"><strong>📜 Mô tả:</strong> @product.Description</p>
+                                <p class="card-text"><strong>📁 Danh mục:</strong> @product.Category?.Name</p>
+                                <div class="d-flex justify-content-between">
+                                <a asp-controller="ShoppingCart" asp-action="AddToCart" asp-route-productId="@product.Id" asp-route-quantity="@numOfQuantity">
+                                <button class="btn btn-outline-dark">
+                                    <i class="bi-cart-fill me-1"></i> Add to Cart
+                                </button>
+                                </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Thêm Bootstrap nếu chưa có -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<style>
+    body {
+        background-color: #f5f5f5;
+    }
+
+    .navbar {
+        background-color: #343a40 !important;
+    }
+
+    #sidebarMenu {
+        background-color: #2c3e50 !important;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .card {
+        border-radius: 12px;
+        transition: transform 0.2s ease-in-out;
+        background-color: #ffffff;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+    .btn {
+        border-radius: 8px;
+    }
+</style>

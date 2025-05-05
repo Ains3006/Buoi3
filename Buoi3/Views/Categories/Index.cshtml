@@ -1,0 +1,27 @@
+﻿@model IEnumerable<Category>
+
+@{
+    ViewData["Title"] = "Categories";
+}
+
+<h2>Categories</h2>
+<a asp-action="Add" asp-controller="Categories" class="btn btn-primary mb-3">Thêm danh mục</a>
+<a asp-action="Index" asp-controller="Product" class="btn btn-secondary">Quay lại trang Product</a>
+<div class="row">
+    @foreach (var category in Model)
+    {
+        <div class="col-md-4">
+            <div class="card mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">@category.Name</h5>
+                    <div class="d-flex justify-content-between">
+                        <a asp-action="Display" asp-controller="Categories" asp-route-id="@category.Id" class="btn btn-info">View</a>
+                        <a asp-action="Update" asp-controller="Categories" asp-route-id="@category.Id" class="btn btn-warning">Edit</a>
+                        <a asp-action="Delete" asp-controller="Categories" asp-route-id="@category.Id" class="btn btn-danger">Delete</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+     
+    }
+</div>
